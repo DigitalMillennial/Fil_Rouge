@@ -1,0 +1,26 @@
+{# templates/accueil/plats.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Plats{% endblock %}
+
+{% block body %}
+<section id="" class="categories-section">
+  <div class="categories-container">
+    {% for plat in plats %}
+    <div class="category">
+        <a href="#">
+        <img src="{{ asset('img/food/' ~ plat.image) }}" alt="{{ plat.libelle }}">
+        <p>{{ plat.libelle }}</p>
+        <p class="price">Prix: {{ plat.prix }} €</p>
+      </a>
+       <!-- Контролы заказа -->
+          <div class="order-controls">
+            <button class="minus-btn" disabled>-</button>
+            <span class="quantity">0</span>
+            <button class="plus-btn">+</button>
+          </div>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -16,12 +16,28 @@
 
     <video playsinline autoplay muted loop>
     <source src="{{ asset('videos/1restaurant.mp4') }}" type="video/mp4">
-    Ваш браузер не поддерживает видео.
+    Votre navigateur ne supporte pas les vidéos.
     </video>
 
     <div class="container h-100 d-flex flex-column justify-content-center align-items-center ">
-        <h1>Bienvenue dans notre restaurant!</h1>
-        <a href="#" class="btn btn-primary">Voir les catégories</a>
+       <h1>Bienvenue dans notre restaurant!</h1>
+        <a href="{{ path('categories') }}" class="btn btn-primary">Voir les catégories</a>
+
     </div>
+    
 </section>
+
+<section id="categories-section" class="categories-section">
+  <div class="categories-container">
+    {% for category in categories %}
+    <div class="category">
+        <a href="#">
+        <img src="{{ asset('img/category/' ~ category.image) }}" alt="{{ category.libelle }}">
+        <p>{{ category.libelle }}</p>
+      </a>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+
 {% endblock %}
