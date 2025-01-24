@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des plats{% endblock %}
+
+{% block body %}
+<main class="main-content">
+  <section class="categories-section">
+    <div class="categories-container">
+      {% if plats is not empty %}
+        {% for product in plats %}
+          <div class="category">
+            <!-- Изображение -->
+            <img src="{{ asset('img/food/' ~ product.image) }}" 
+                 alt="{{ product.libelle|e }}">
+            <!-- Название -->
+            <p>{{ product.libelle|e }}</p>
+            <!-- Цена -->
+            <p class="price">{{ product.prix|number_format(2, ',', ' ') }} €</p>
+            <!-- Контролы заказа -->
+            <div class="order-controls">
+              <button class="minus-btn" disabled>-</button>
+              <span class="quantity">0</span>
+              <button class="plus-btn">+</button>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>Нет доступных блюд.</p>
+      {% endif %}
+      <button type="button" class="btn btn-primary" onclick="window.location.href='#'">Ajouter un plat</button>
+    </div>    
+  </section>  
+</main>
+<a href="#" class="cart-button">
+  <i class="fa-solid fa-cart-shopping"></i>
+</a>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('js/script.js') }}"></script>
+{% endblock %}

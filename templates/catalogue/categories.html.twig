@@ -8,7 +8,7 @@
   <div class="categories-container">
     {% for category in categories %}
     <div class="category">
-        <a href="#">
+        <a href="{{ path('plats_by_category', {categorie_id: category.id}) }}">
         <img src="{{ asset('img/category/' ~ category.image) }}" alt="{{ category.libelle }}">
         <p>{{ category.libelle }}</p>
       </a>

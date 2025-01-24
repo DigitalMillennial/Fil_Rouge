@@ -27,17 +27,5 @@
     
 </section>
 
-<section id="categories-section" class="categories-section">
-  <div class="categories-container">
-    {% for category in categories %}
-    <div class="category">
-        <a href="#">
-        <img src="{{ asset('img/category/' ~ category.image) }}" alt="{{ category.libelle }}">
-        <p>{{ category.libelle }}</p>
-      </a>
-    </div>
-    {% endfor %}
-  </div>
-</section>
 
 {% endblock %}
