@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Результаты поиска{% endblock %}
+
+{% block body %}
+<main class="main-content">
+  <section class="categories-section">
+    <div class="categories-container">
+      {% if error %}
+        <p style="color: red;">{{ error }}</p>
+      {% elseif products is empty %}
+        <p>Ничего не найдено.</p>
+      {% else %}
+        {% for product in products %}
+          <div class="category">
+            <!-- Изображение -->
+            <img src="{{ asset('img/food/' ~ product.image) }}" 
+                 alt="{{ product.libelle|e }}">
+            <!-- Название -->
+            <p>{{ product.libelle|e }}</p>
+            <!-- Цена -->
+            <p class="price">{{ product.prix|number_format(2, ',', ' ') }} €</p>
+            <!-- Контролы заказа -->
+            <div class="order-controls">
+              <button class="minus-btn" disabled>-</button>
+              <span class="quantity">0</span>
+              <button class="plus-btn">+</button>
+            </div>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+  </section>
+</main>
+
+<a href="#" class="cart-button">
+  <i class="fa-solid fa-cart-shopping"></i>
+</a>
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script src="{{ asset('js/script.js') }}"></script>
+{% endblock %}

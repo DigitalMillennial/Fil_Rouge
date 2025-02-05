@@ -44,13 +44,13 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        // Получаем целевой путь из сессии
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
 
-        // For example:
-        // return new RedirectResponse($this->urlGenerator->generate('some_route'));
-        throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
+        // Если целевой путь не найден, перенаправляем на главную страницу (или любой другой маршрут)
+        return new RedirectResponse($this->urlGenerator->generate('home'));  // Замените 'home' на нужный маршрут
     }
 
     protected function getLoginUrl(Request $request): string

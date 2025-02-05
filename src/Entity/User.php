@@ -2,27 +2,29 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180, nullable: true)]
-    private ?string $Email = null;
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Password = null;
+    private ?string $password = null; // Изменено с "Password" на "password"
 
     #[ORM\Column]
-    private array $Roles = [];
+    private array $roles = []; // Изменено с "Roles" на "roles"
 
     #[ORM\Column]
     private bool $isVerified = false;
@@ -34,37 +36,37 @@ class User
 
     public function getEmail(): ?string
     {
-        return $this->Email;
+        return $this->email;
     }
 
-    public function setEmail(?string $Email): static
+    public function setEmail(?string $email): static
     {
-        $this->Email = $Email;
-
+        $this->email = $email;
         return $this;
     }
 
     public function getPassword(): ?string
     {
-        return $this->Password;
+        return $this->password;
     }
 
-    public function setPassword(string $Password): static
+    public function setPassword(string $password): static
     {
-        $this->Password = $Password;
-
+        $this->password = $password;
         return $this;
     }
 
     public function getRoles(): array
     {
-        return $this->Roles;
+        $roles = $this->roles;
+        // Гарантируем, что у каждого пользователя есть хотя бы одна роль
+        $roles[] = 'ROLE_USER';
+        return array_unique($roles);
     }
 
-    public function setRoles(array $Roles): static
+    public function setRoles(array $roles): static
     {
-        $this->Roles = $Roles;
-
+        $this->roles = $roles;
         return $this;
     }
 
@@ -76,7 +78,21 @@ class User
     public function setVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
-
         return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // Очищает временные данные пользователя (например, если пароль хранится в памяти)
+    }
+
+    public function getUserIdentifier(): string
+    {
+        return $this->email ?? '';
+    }
+
+    public function getUsername(): string
+    {
+        return $this->email ?? '';
     }
 }
