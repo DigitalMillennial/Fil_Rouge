@@ -26,7 +26,8 @@
     <div class="col-12" id="form-section" style="display: none">
       <section class="contact-section p-3 bg-light rounded">
         <h1>Contactez-Nous</h1>
-        <form class="contact-form" action="process_form.php" method="POST">
+        <form class="contact-form" action="{{ path('demande_process_form') }}" method="POST">
+
           <div class="form-row">
             <div class="form-group col-md-6">
               <label for="name">Nom</label>

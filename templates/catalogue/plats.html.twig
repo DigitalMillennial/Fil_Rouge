@@ -27,11 +27,11 @@
       {% else %}
         <p>Нет доступных блюд.</p>
       {% endif %}
-      <button type="button" class="btn btn-primary" onclick="window.location.href='#'">Ajouter un plat</button>
+      <button type="button" class="btn btn-primary" onclick="window.location.href='{{ path('app_plat_new')}}'">Ajouter un plat</button>
     </div>    
   </section>  
 </main>
-<a href="#" class="cart-button">
+<a href="{{path('contact')}}" class="cart-button">
   <i class="fa-solid fa-cart-shopping"></i>
 </a>
 {% endblock %}

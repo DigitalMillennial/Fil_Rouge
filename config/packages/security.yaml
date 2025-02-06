@@ -1,14 +1,12 @@
 security:
-    # Настройка хеширования паролей
     password_hashers:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
 
-    # Настройка провайдера пользователей, используемого для поиска в базе данных
     providers:
         users_in_database:
             entity:
                 class: App\Entity\User
-                property: email  # Указываем поле для поиска пользователя (например, email)
+                property: email
 
     firewalls:
         dev:
@@ -16,34 +14,30 @@ security:
             security: false
 
         main:
-            # Указываем точку входа для анонимных пользователей
-            entry_point: form_login  # Используем form_login для анонимных пользователей
+            entry_point: form_login
             lazy: true
-            provider: users_in_database  # Используем провайдер, настроенный для поиска пользователей в БД
+            provider: users_in_database
             form_login:
-                login_path: login  # Путь к странице входа
-                check_path: login  # Путь для отправки формы логина
-                csrf_token_id: authenticate  # Подтверждение CSRF
-                csrf_parameter: _csrf_token  # Параметр для CSRF
+                login_path: app_login  # Исправлено: Symfony ожидает имя маршрута
+                check_path: app_login
+                csrf_token_id: authenticate
+                csrf_parameter: _csrf_token
             logout:
-                path: logout  # Путь для выхода
-                invalidate_session: true  # Инвалидация сессии после выхода
-            custom_authenticator: App\Security\AppCustomAuthenticator  # Указываем свой аутентификатор
+                path: app_logout  # Исправлено: имя маршрута должно соответствовать контроллеру
+                target: app_login  # Перенаправление после выхода
+                invalidate_session: true
+            custom_authenticator: App\Security\AppCustomAuthenticator
 
             remember_me:
                 secret: '%kernel.secret%'
                 lifetime: 604800
                 path: /
                 always_remember_me: true
-            # Вы можете включить impersonation (персонализация), если требуется
-            # switch_user: true
 
-    # Контроль доступа на основе ролей
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }  # Доступ к /admin только для пользователей с ролью ROLE_ADMIN
-        - { path: ^/profile, roles: ROLE_USER }  # Доступ к /profile только для пользователей с ролью ROLE_USER
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/profile, roles: ROLE_USER }
 
-# Специальная настройка для тестов (не влияет на продакшн)
 when@test:
     security:
         password_hashers:

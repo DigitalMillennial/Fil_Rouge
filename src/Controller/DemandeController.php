@@ -81,7 +81,7 @@ class DemandeController extends AbstractController
     public function contactForm()
     {
         // Показываем форму для связи (contact.html.twig)
-        return $this->render('contact.html.twig');
+        return $this->render('contact/index.html.twig');
     }
 
     #[Route('/demande/process_form', name: 'demande_process_form', methods: ['POST'])]
@@ -96,7 +96,7 @@ class DemandeController extends AbstractController
 
         // Валидация данных (по желанию)
         if (empty($name) || empty($surname) || empty($email) || empty($phone) || empty($message)) {
-            return $this->render('contact.html.twig', [
+            return $this->render('contact/index.html.twig', [
                 'error' => 'Все поля обязательны для заполнения.',
             ]);
         }

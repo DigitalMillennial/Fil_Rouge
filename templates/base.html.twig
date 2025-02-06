@@ -37,8 +37,12 @@
             <li class="nav-item"><a class="nav-link" href="{{ path('contact') }}">Contact</a></li> {# <a href="{{ path('contact') }}">Contact</a> #}
           </ul>
         </nav>
-         <div class="">
-          <a href="{{ path('app_login') }}">Connectez-vous</a>
+        <div class="">
+          {% if app.user %}
+            <a href="{{ path('app_logout') }}">Se déconnecter</a>
+          {% else %}
+            <a href="{{ path('app_login') }}">Connectez-vous</a>
+          {% endif %}
         </div>
     </header>
 
